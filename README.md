@@ -2,15 +2,15 @@
 
 Bilingual AI startup landing page (English + Nepali), designed for a Nepal-first, global-ready narrative.
 
-## Files that should exist in your GitHub repo
+## Files in this repo
 
 - `index.html`
 - `styles.css`
 - `script.js`
+- `wrangler.toml`
+- `.github/workflows/deploy-cloudflare-pages.yml`
 - `.github/workflows/deploy-gh-pages.yml`
 - `README.md`
-
-If these files are not visible on GitHub, the local commits have not been pushed yet.
 
 ## Run locally
 
@@ -20,47 +20,42 @@ python3 -m http.server 8080
 
 Then open: `http://localhost:8080`
 
-## Push everything to GitHub
+## Host with Cloudflare Pages (Recommended)
 
-Run these commands from this repository root:
+This repo includes a Cloudflare deployment workflow at `.github/workflows/deploy-cloudflare-pages.yml`.
+
+### 1) Create Cloudflare Pages project
+
+1. Go to Cloudflare Dashboard → **Workers & Pages** → **Create application** → **Pages**.
+2. Create a project named **`himalai-ventures-site`** (or update the workflow `projectName` to match your project).
+
+### 2) Create API token
+
+Create a Cloudflare API token with permissions:
+- **Account → Cloudflare Pages:Edit**
+- **Zone → Zone:Read** (if needed by your account policy)
+
+### 3) Add GitHub repository secrets
+
+In GitHub: **Settings → Secrets and variables → Actions**, add:
+
+- `CLOUDFLARE_API_TOKEN`
+- `CLOUDFLARE_ACCOUNT_ID`
+
+### 4) Push and deploy
 
 ```bash
-git status
-git log --oneline -n 5
-git remote -v
 git push -u origin work
 ```
 
-If your GitHub default branch is `main`, merge or push the same commits to `main` as well:
+Then either:
+- merge to `main` and push, or
+- run workflow manually in **GitHub Actions**.
 
-```bash
-git checkout main
-git merge work
-git push origin main
-```
+Your Cloudflare Pages URL will look like:
 
-## Host it (GitHub Pages)
+- `https://himalai-ventures-site.pages.dev`
 
-This repo includes a GitHub Actions workflow at `.github/workflows/deploy-gh-pages.yml`.
+## Optional: GitHub Pages fallback
 
-### Steps
-
-1. Push this branch to your GitHub repository.
-2. In GitHub, go to **Settings → Pages**.
-3. Under **Build and deployment**, select **Source: GitHub Actions**.
-4. Push to your default branch (`main` or `master`) or manually run the workflow from **Actions**.
-5. Your site will be available at:
-   - `https://<your-github-username>.github.io/<repo-name>/`
-
-## Deploy alternatives
-
-### Netlify
-- Drag-and-drop this project folder in Netlify, or connect the repo.
-- Build command: *(none)*
-- Publish directory: `.`
-
-### Vercel
-- Import the repository as a static site.
-- Framework preset: **Other**
-- Build command: *(none)*
-- Output directory: `.`
+You can still use `.github/workflows/deploy-gh-pages.yml` if you want GitHub Pages as a backup host.
