@@ -1,0 +1,6 @@
+name = "himalai-ventures-site"
+compatibility_date = "2026-03-25"
+
+[assets]
+directory = "."
+include = ["index.html", "styles.css", "script.js"]
